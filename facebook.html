@@ -1,0 +1,53 @@
+<template id="template">
+	<style>
+		.facebookBtn {
+			padding:10px;
+			font-family: sans-serif;
+			background-color: #3b5998;
+			color:white;
+			border-radius:2px;
+			text-decoration: none;
+		}
+
+		.facebookBtn:hover {
+			background-color: #5171B3;
+		}
+
+	</style>
+
+	<a class="facebookBtn" data-dir="left" href="https://www.facebook.com/sharer/sharer.php?u=http://google.com" >
+		<span>Facebook</span>
+		<content select="span"></content>
+	</a>
+
+	<script>
+		$('.share').append(
+			'<span class="facebook-count">0</span>'
+		).customShareCount();
+	</script>
+
+</template>
+
+<script>
+	(function (doc) {
+		// This element will be registered to index.html
+		// Because `document` here means the one in index.html
+		var facebook = document.registerElement('facebook-share', {
+			prototype: Object.create(HTMLElement.prototype, {
+				createdCallback: {
+					value: function() {
+						var root = this.createShadowRoot();
+						// use doc instead of document or document.currentScript.ownerDocument
+						var template = doc.querySelector('#template');
+						var clone = document.importNode(template.content, true);
+						root.appendChild(clone);
+					}
+				}
+			})
+		});
+
+	})(document.currentScript.ownerDocument); // pass document of x-component.html
+</script>
+
+<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+<script src="customShareCounts.js"></script>
